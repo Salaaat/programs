@@ -19,6 +19,7 @@ def m_p(a, primes):
 	A = []
 	i = 0
 	if a:
+		A.append(0)
 		a = int(a)
 		while i < len(primes):
 			x = primes[i]
@@ -28,6 +29,8 @@ def m_p(a, primes):
 			else: 
 				i += 1
 				A.append(0)
+			if a == 1:
+				break
 	return A
 	
 def count():
