@@ -18,48 +18,89 @@ def primes(until):
 def m_p(a, primes):
 	A = []
 	i = 0
+
 	if a:
-		A.append(0)
 		a = int(a)
-		while i < len(primes):
+		num = int(a)
+		A.append(0)
+		while primes[i] <= a ** 0.5:
 			x = primes[i]
-			if not a % x:
-				a /= x
+			if not num % x:
+				num /= x
 				A[i] += 1
 			else: 
-				i += 1
 				A.append(0)
-			if a == 1:
+				i += 1
+			if num in primes:
+				j = 0
+				while primes[j] != num:
+					j += 1
+				while len(A) - 1 != j:
+					A.append(0)
+				A[j] += 1
 				break
+			if num == 1:
+				break
+				
 	return A
 	
 def count():
 	prime = primes(input("nejvyssi cislo v uloze: "))
-	
+
 	while True:
 		check = True
 		a = input("a = ")
 		b = input("b = ")
-		d = input("D = ")
 		n = input("n = ")
-	
+		d = input("D = ")
+
+		print(prime)
+
 		A = m_p(a, prime)
 		B = m_p(b, prime)
-		D = m_p(d, prime)
 		N = m_p(n, prime)
+		D = m_p(d, prime)
 		
-		print(f"\n{A}\n{B}\n{D}\n{N}\n")
+		print(f"\n{A}\n{B}\n{N}\n{D}\n")
 		
-		while not(A and B and D and N):
-			if A and B and not N:
-				index = 0
-				for i in range(len(A)):
-					if A[i] <= B[i]:
-						pass
-					index += 1
-			elif A and B and not D:
+		while not(A and B and N and D):
+			if A and B and not D:
+				shorter = None
+				longer = None
+				if len(A) < len(B):
+					shorter, longer = A, B
+				else:
+					shorter, longer = B, A
+				for i in range(len(shorter)):
+					D.append(min(shorter[i], longer[i]))
+			elif A and B and not N:
+				shorter = None
+				longer = None
+				if len(A) < len(B):
+					shorter, longer = A, B
+				else:
+					shorter, longer = B, A
+				for i in range(len(shorter)):
+					N.append(max(shorter[i], longer[i]))
+				for i in range(len(longer)):
+					if i <= len(shorter):
+						N.append(longer[i])
+			elif (bool(A) != bool(B)) and D:
 				pass
-			elif (bool(A) != bool(B)) and (D or N):
+			elif (bool(A) != bool(B)) and N:
 				pass
-
+		names = ['a', 'b', 'n', 'd']
+		numbers = [a, b, n, d]
+		num_prm = [A, B, N, D]
+		for i in range(4):
+			small = numbers[i]
+			big = num_prm[i]
+			if not small:
+				small = 1
+				for j in range(len(big)):
+					for k in range(big[j]):
+						small *= prime[j]
+				print(f'{names[i]} = {small}')
+	print(2 * '\n')
+	
 count()
