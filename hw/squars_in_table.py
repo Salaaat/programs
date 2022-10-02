@@ -20,31 +20,45 @@ def find_sqr(min_size, max_size):  # finds the biggest square of Trues in random
     # min_size = int(input('Minimum size of table: '))
     # max_size = int(input('Maximum size of table: '))
     table = mk_table(min_size, max_size)
-    pot_sqrs = []  # index = length of one side; pot_sqrs[index] = list of coordinates of top left corners
-    sqrs = [[0, 0]]  # index = length of one side; i, j = table[i][j] (coordinates of top left corners)
+    pot_sqrs = []  # potential_squares: pot_sqrs[length of one side][n] = list of m = start of potential peace of a square
+    sqrs = [[0, 0]]  # squares: index = length of one side; n, m = table[n][m] (coordinates of top left corners)
 
-    for i in range(len(table)):
-        row = table[i]
+    for n in range(len(table)):
+        row = table[n]
         length = 0
         print(row)
 
-        for j in range(len(row)):
-            cell = row[j]
+        for m in range(len(row)):
+            cell = row[m]
             print(cell)
 
             if cell:
                 length += 1
                 while (len(sqrs) - 1) < length:
+                    print('1')
                     sqrs.append([])
                 while (len(pot_sqrs) - 1) < length:
+                    print('2')
                     pot_sqrs.append([])
-
+                for k in range(len(pot_sqrs)):
+                    print(3)
+                    cur_list = pot_sqrs[k]
+                    while (len(cur_list) - 1) < n:
+                        print(4, len(cur_list), cur_list, pot_sqrs[k])
+                        if not sqrs[k]:
+                            cur_list.append([])
+                        else:
+                            break
                 not_len = length
                 while not_len:
+                    print('5')
                     if not sqrs[not_len]:
-                        pot_sqrs[not_len].append([i, j - (not_len - 1)])
+                        pot_sqrs[not_len][n].append(m - (not_len - 1))
                     not_len -= 1
             else:
+                print('0')
                 length = 0
 
-    print(table, '\n', pot_sqrs)
+    print(table, '\n', pot_sqrs, sqrs)
+
+find_sqr(5, 5)
